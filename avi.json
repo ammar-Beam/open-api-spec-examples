@@ -1,0 +1,1441 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "Avi Medical Partner API",
+		"contact": {
+			"name": "Avi Medical GmbH",
+			"url": "https://www.avimedical.com",
+			"email": "engineering@avimedical.com"
+		},
+		"license": {
+			"name": "Pending license"
+		},
+		"version": "0.0.1"
+	},
+	"servers": [
+		{
+			"url": "https://partner.api.dev-1.avitest.info"
+		},
+		{
+			"url": "https://partner.api.stg-1.avitest.info"
+		},
+		{
+			"url": "https://partner.api.avimed ical.com"
+		}
+	],
+	"security": [
+		{
+			"basicAuth": []
+		}
+	],
+	"tags": [
+		{
+			"name": "BotSpace"
+		},
+		{
+			"name": "Patient Anamnesis"
+		},
+		{
+			"name": "Patient Generated Health Data"
+		},
+		{
+			"name": "Patient Health Plan"
+		},
+		{
+			"name": "Patient Profile"
+		},
+		{
+			"name": "Survey Answers"
+		},
+		{
+			"name": "Thryve"
+		}
+	],
+	"paths": {
+		"/api/v1/bot-space/action": {
+			"post": {
+				"tags": ["BotSpace"],
+				"summary": "Execute a BotSpace action.",
+				"description": "This endpoint executes a BotSpace action.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/BotSpaceActionDTO"
+							}
+						}
+					}
+				},
+				"responses": {
+					"204": {
+						"description": "Action processed successfully"
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Forbidden",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"SecurityScheme": []
+					}
+				]
+			}
+		},
+		"/api/v1/patient/{patientId}/anamnesis-answers": {
+			"get": {
+				"tags": ["Patient Anamnesis"],
+				"summary": "Anamnesis answers",
+				"description": "Returns anamnesis answers",
+				"parameters": [
+					{
+						"name": "patientId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/UUID"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"schema": {
+							"$ref": "#/components/schemas/OffsetDateTime"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"schema": {
+							"$ref": "#/components/schemas/OffsetDateTime"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Anamnesis answers returned successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseDTOListProcessedAnswersAnamnesisDTO"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"SecurityScheme": []
+					}
+				]
+			}
+		},
+		"/api/v1/patient/{patientId}/health-plan": {
+			"get": {
+				"tags": ["Patient Health Plan"],
+				"summary": "Get patient health plans by patient id",
+				"description": "Returns the patient health plan for the given the patient id",
+				"parameters": [
+					{
+						"name": "patientId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/UUID"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Patient health plan returned successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ListResponseDTOHealthPlanDTO"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"SecurityScheme": []
+					}
+				]
+			}
+		},
+		"/api/v1/patient/{patientId}/patient-generated-health-data": {
+			"get": {
+				"tags": ["Patient Generated Health Data"],
+				"summary": "Get Patient Generated Health Data by patient id",
+				"description": "Returns the Patient Generated Health Data for the given patient id",
+				"parameters": [
+					{
+						"name": "patientId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/UUID"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"schema": {
+							"$ref": "#/components/schemas/OffsetDateTime"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"schema": {
+							"$ref": "#/components/schemas/OffsetDateTime"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Patient Generated Health Data returned successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ListResponseDTOPatientGeneratedHealthDataResponseDTO"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"SecurityScheme": []
+					}
+				]
+			}
+		},
+		"/api/v1/patient/{patientId}/profile": {
+			"get": {
+				"tags": ["Patient Profile"],
+				"summary": "Get patient profile",
+				"description": "Returns the patient profile",
+				"parameters": [
+					{
+						"name": "patientId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"$ref": "#/components/schemas/UUID"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Patient profile returned successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseDTOPatientProfileDTO"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"SecurityScheme": []
+					}
+				]
+			}
+		},
+		"/api/v1/patient/{patientId}/survey-answers": {
+			"get": {
+				"tags": ["Survey Answers"],
+				"summary": "Get patient survey answers by patient id",
+				"description": "Returns the patient survey answers for the given patient id",
+				"parameters": [
+					{
+						"name": "patientId",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "from",
+						"in": "query",
+						"schema": {
+							"$ref": "#/components/schemas/OffsetDateTime"
+						}
+					},
+					{
+						"name": "to",
+						"in": "query",
+						"schema": {
+							"$ref": "#/components/schemas/OffsetDateTime"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Patient survey answers returned successfully",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ResponseDTOListPatientSurveyAnswersResponseDTO"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Forbidden",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					}
+				},
+				"security": [
+					{
+						"SecurityScheme": []
+					}
+				]
+			}
+		},
+		"/api/v1/thryve/health-data": {
+			"post": {
+				"tags": ["Thryve"],
+				"summary": "Receives a data update from Thryve via Webhook.",
+				"description": "Receives a data update from Thryve via Webhook.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ObjectNode"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Action processed successfully"
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorDTO"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Not Authorized"
+					},
+					"403": {
+						"description": "Not Allowed"
+					}
+				},
+				"security": [
+					{
+						"SecurityScheme": []
+					}
+				]
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"ActivityTypeDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"name": {
+						"type": "string"
+					}
+				}
+			},
+			"AddressDTO": {
+				"type": "object",
+				"properties": {
+					"street": {
+						"type": "string"
+					},
+					"careOf": {
+						"type": "string"
+					},
+					"postCode": {
+						"type": "string"
+					},
+					"city": {
+						"type": "string"
+					},
+					"country": {
+						"type": "string"
+					}
+				}
+			},
+			"AlcoholDTO": {
+				"type": "object",
+				"properties": {
+					"drinksRange": {
+						"type": "string"
+					},
+					"timeFrame": {
+						"type": "string"
+					}
+				}
+			},
+			"AllergenDTO": {
+				"type": "object",
+				"properties": {
+					"allergen": {
+						"type": "string"
+					},
+					"symptoms": {
+						"type": "string"
+					}
+				}
+			},
+			"AllergiesDTO": {
+				"type": "object",
+				"properties": {
+					"answer": {
+						"type": "string"
+					},
+					"_list": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/AllergenDTO"
+						}
+					},
+					"list": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/AllergenDTO"
+						}
+					}
+				}
+			},
+			"AnamnesisStatus": {
+				"enum": [
+					"NEW",
+					"IN_PROGRESS",
+					"READY_TO_SUBMIT",
+					"SUBMITTED",
+					"DISCARDED"
+				],
+				"type": "string"
+			},
+			"AnswerItemDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"type": {
+						"type": "string"
+					},
+					"value": {
+						"type": "string"
+					},
+					"docuRelevant": {
+						"type": "boolean"
+					},
+					"icon": {
+						"type": "string"
+					}
+				}
+			},
+			"AnswerSectionDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"title": {
+						"type": "string"
+					},
+					"sections": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/AnswerSectionDTO"
+						}
+					},
+					"items": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/AnswerItemDTO"
+						}
+					},
+					"showMaxElements": {
+						"format": "int32",
+						"type": "integer"
+					}
+				}
+			},
+			"BaseInfoDTO": {
+				"type": "object",
+				"properties": {
+					"weight": {
+						"format": "int32",
+						"type": "integer"
+					},
+					"height": {
+						"format": "int32",
+						"type": "integer"
+					},
+					"sex": {
+						"type": "string"
+					},
+					"pregnant": {
+						"type": "string"
+					},
+					"disability": {
+						"type": "string"
+					},
+					"disabilityDegree": {
+						"format": "int32",
+						"type": "integer"
+					}
+				}
+			},
+			"BotSpaceActionDTO": {
+				"required": ["phoneNumber", "action"],
+				"type": "object",
+				"properties": {
+					"phoneNumber": {
+						"pattern": "\\S",
+						"type": "string"
+					},
+					"action": {
+						"type": "string"
+					},
+					"resourceType": {
+						"type": "string"
+					},
+					"resourceId": {
+						"type": "string"
+					},
+					"answer": {
+						"type": "boolean"
+					}
+				}
+			},
+			"ContactDTO": {
+				"type": "object",
+				"properties": {
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					}
+				}
+			},
+			"DataSourceDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"name": {
+						"type": "string"
+					}
+				}
+			},
+			"DataTypeDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"name": {
+						"type": "string"
+					},
+					"measurementType": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"isActivity": {
+						"type": "boolean"
+					}
+				}
+			},
+			"DoctorDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"format": "int64",
+						"type": "integer"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastname": {
+						"type": "string"
+					}
+				}
+			},
+			"DrugsDTO": {
+				"type": "object",
+				"properties": {
+					"answer": {
+						"type": "string"
+					},
+					"substances": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"ErrorDTO": {
+				"type": "object",
+				"properties": {
+					"message": {
+						"type": "string"
+					},
+					"reason": {
+						"type": "string"
+					},
+					"violations": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/ViolationDTO"
+						}
+					},
+					"additionalInformation": {
+						"type": "object",
+						"additionalProperties": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"FamilyDTO": {
+				"type": "object",
+				"properties": {
+					"history": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"HealthPlanActionDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					}
+				}
+			},
+			"HealthPlanDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"patientId": {
+						"type": "string"
+					},
+					"doctor": {
+						"$ref": "#/components/schemas/DoctorDTO"
+					},
+					"medications": {
+						"uniqueItems": true,
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/HealthPlanMedicationDTO"
+						}
+					},
+					"healthIndicators": {
+						"uniqueItems": true,
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/HealthPlanIndicatorDTO"
+						}
+					},
+					"focusAreas": {
+						"uniqueItems": true,
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/HealthPlanFocusAreaDTO"
+						}
+					},
+					"actions": {
+						"uniqueItems": true,
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/HealthPlanActionDTO"
+						}
+					}
+				}
+			},
+			"HealthPlanFocusAreaDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"currentValue": {
+						"type": "string"
+					},
+					"targetRange": {
+						"$ref": "#/components/schemas/RangeDTOString"
+					}
+				}
+			},
+			"HealthPlanIndicatorDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					}
+				}
+			},
+			"HealthPlanMedicationDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"schedule": {
+						"type": "string"
+					}
+				}
+			},
+			"InsuranceDTO": {
+				"type": "object",
+				"properties": {
+					"type": {
+						"$ref": "#/components/schemas/InsuranceType"
+					},
+					"title": {
+						"type": "string"
+					},
+					"number": {
+						"type": "string"
+					},
+					"iknr": {
+						"type": "string"
+					},
+					"alias": {
+						"type": "string"
+					}
+				}
+			},
+			"InsuranceType": {
+				"enum": ["GKV", "PKV"],
+				"type": "string"
+			},
+			"JsonNode": {
+				"type": "object",
+				"properties": {
+					"empty": {
+						"type": "boolean"
+					},
+					"valueNode": {
+						"type": "boolean"
+					},
+					"containerNode": {
+						"type": "boolean"
+					},
+					"missingNode": {
+						"type": "boolean"
+					},
+					"array": {
+						"type": "boolean"
+					},
+					"object": {
+						"type": "boolean"
+					},
+					"nodeType": {
+						"$ref": "#/components/schemas/JsonNodeType"
+					},
+					"pojo": {
+						"type": "boolean"
+					},
+					"number": {
+						"type": "boolean"
+					},
+					"integralNumber": {
+						"type": "boolean"
+					},
+					"floatingPointNumber": {
+						"type": "boolean"
+					},
+					"short": {
+						"type": "boolean"
+					},
+					"int": {
+						"type": "boolean"
+					},
+					"long": {
+						"type": "boolean"
+					},
+					"float": {
+						"type": "boolean"
+					},
+					"double": {
+						"type": "boolean"
+					},
+					"bigDecimal": {
+						"type": "boolean"
+					},
+					"bigInteger": {
+						"type": "boolean"
+					},
+					"textual": {
+						"type": "boolean"
+					},
+					"boolean": {
+						"type": "boolean"
+					},
+					"null": {
+						"type": "boolean"
+					},
+					"binary": {
+						"type": "boolean"
+					}
+				}
+			},
+			"JsonNodeType": {
+				"enum": [
+					"ARRAY",
+					"BINARY",
+					"BOOLEAN",
+					"MISSING",
+					"NULL",
+					"NUMBER",
+					"OBJECT",
+					"POJO",
+					"STRING"
+				],
+				"type": "string"
+			},
+			"LevelOfCareDTO": {
+				"type": "object",
+				"properties": {
+					"answer": {
+						"type": "string"
+					},
+					"careLevel": {
+						"format": "int32",
+						"type": "integer"
+					}
+				}
+			},
+			"ListResponseDTOHealthPlanDTO": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/HealthPlanDTO"
+						}
+					}
+				}
+			},
+			"ListResponseDTOPatientGeneratedHealthDataResponseDTO": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/PatientGeneratedHealthDataResponseDTO"
+						}
+					}
+				}
+			},
+			"LocalDate": {
+				"format": "date",
+				"type": "string",
+				"example": "2022-03-10"
+			},
+			"MedicationDTO": {
+				"type": "object",
+				"properties": {
+					"answer": {
+						"type": "string"
+					},
+					"intake": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"ObjectNode": {
+				"type": "array",
+				"items": {
+					"$ref": "#/components/schemas/JsonNode"
+				}
+			},
+			"OffsetDateTime": {
+				"format": "date-time",
+				"type": "string",
+				"example": "2022-03-10T12:15:50-04:00"
+			},
+			"PatientGeneratedHealthDataResponseDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"patientId": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"dataSource": {
+						"$ref": "#/components/schemas/DataSourceDTO"
+					},
+					"dataType": {
+						"$ref": "#/components/schemas/DataTypeDTO"
+					},
+					"activityType": {
+						"$ref": "#/components/schemas/ActivityTypeDTO"
+					},
+					"dataValue": {
+						"type": "string"
+					},
+					"createdAt": {
+						"$ref": "#/components/schemas/OffsetDateTime"
+					},
+					"startedAt": {
+						"$ref": "#/components/schemas/OffsetDateTime"
+					},
+					"endedAt": {
+						"$ref": "#/components/schemas/OffsetDateTime"
+					},
+					"generation": {
+						"type": "string"
+					},
+					"medicalGrade": {
+						"type": "boolean"
+					},
+					"chronologicalExactness": {
+						"format": "int32",
+						"type": "integer"
+					},
+					"timezoneOffset": {
+						"format": "int32",
+						"type": "integer"
+					}
+				}
+			},
+			"PatientProfileDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"titleType": {
+						"$ref": "#/components/schemas/Title"
+					},
+					"firstName": {
+						"type": "string"
+					},
+					"lastName": {
+						"type": "string"
+					},
+					"email": {
+						"type": "string"
+					},
+					"salutation": {
+						"$ref": "#/components/schemas/Salutation"
+					},
+					"dob": {
+						"$ref": "#/components/schemas/LocalDate"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"preferredLocale": {
+						"type": "string",
+						"example": "de"
+					},
+					"preferredPracticeId": {
+						"type": "string"
+					},
+					"preferredDoctorId": {
+						"type": "string"
+					},
+					"insurance": {
+						"$ref": "#/components/schemas/InsuranceDTO"
+					},
+					"officialAddress": {
+						"$ref": "#/components/schemas/AddressDTO"
+					},
+					"postAddress": {
+						"$ref": "#/components/schemas/AddressDTO"
+					}
+				}
+			},
+			"PatientSurveyAnswersResponseDTO": {
+				"type": "object",
+				"properties": {
+					"resourceType": {
+						"type": "string"
+					},
+					"patientId": {
+						"$ref": "#/components/schemas/UUID"
+					},
+					"answer": {
+						"type": "boolean"
+					},
+					"answeredAt": {
+						"$ref": "#/components/schemas/OffsetDateTime"
+					}
+				}
+			},
+			"PhysicalActivityDTO": {
+				"type": "object",
+				"properties": {
+					"activities": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"PreconditionCategoryDTO": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"items": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"PreconditionsDTO": {
+				"type": "object",
+				"properties": {
+					"answer": {
+						"type": "string"
+					},
+					"selectedPreconditionCategories": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/PreconditionCategoryDTO"
+						}
+					}
+				}
+			},
+			"ProcessedAnswersAnamnesisDTO": {
+				"type": "object",
+				"properties": {
+					"anamnesisId": {
+						"type": "string"
+					},
+					"createdAt": {
+						"$ref": "#/components/schemas/OffsetDateTime"
+					},
+					"status": {
+						"$ref": "#/components/schemas/AnamnesisStatus"
+					},
+					"baseInfo": {
+						"$ref": "#/components/schemas/BaseInfoDTO"
+					},
+					"medication": {
+						"$ref": "#/components/schemas/MedicationDTO"
+					},
+					"surgery": {
+						"$ref": "#/components/schemas/SurgeryDTO"
+					},
+					"allergies": {
+						"$ref": "#/components/schemas/AllergiesDTO"
+					},
+					"substanceAbuse": {
+						"$ref": "#/components/schemas/SubstanceAbuseDTO"
+					},
+					"levelOfCare": {
+						"$ref": "#/components/schemas/LevelOfCareDTO"
+					},
+					"family": {
+						"$ref": "#/components/schemas/FamilyDTO"
+					},
+					"psych": {
+						"$ref": "#/components/schemas/PsychDTO"
+					},
+					"stress": {
+						"$ref": "#/components/schemas/StressDTO"
+					},
+					"preconditions": {
+						"$ref": "#/components/schemas/PreconditionsDTO"
+					},
+					"socialEnvironment": {
+						"$ref": "#/components/schemas/SocialEnvironmentDTO"
+					},
+					"physicalActivity": {
+						"$ref": "#/components/schemas/PhysicalActivityDTO"
+					},
+					"vaccinationCheck": {
+						"$ref": "#/components/schemas/VaccinationCheckDTO"
+					},
+					"contact": {
+						"$ref": "#/components/schemas/ContactDTO"
+					},
+					"sections": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/AnswerSectionDTO"
+						}
+					}
+				}
+			},
+			"PsychDTO": {
+				"type": "object",
+				"properties": {
+					"issues": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"Range": {
+				"type": "object",
+				"properties": {
+					"startIndex": {
+						"format": "int32",
+						"type": "integer"
+					},
+					"lastIndex": {
+						"format": "int32",
+						"type": "integer"
+					}
+				}
+			},
+			"RangeDTOString": {
+				"type": "object",
+				"properties": {
+					"min": {
+						"type": "string"
+					},
+					"max": {
+						"type": "string"
+					}
+				}
+			},
+			"ResponseDTOListPatientSurveyAnswersResponseDTO": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/PatientSurveyAnswersResponseDTO"
+						}
+					}
+				}
+			},
+			"ResponseDTOListProcessedAnswersAnamnesisDTO": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/ProcessedAnswersAnamnesisDTO"
+						}
+					}
+				}
+			},
+			"ResponseDTOPatientProfileDTO": {
+				"type": "object",
+				"properties": {
+					"data": {
+						"$ref": "#/components/schemas/PatientProfileDTO"
+					}
+				}
+			},
+			"Salutation": {
+				"enum": ["MR", "MRS", "MS", "DIVERSE"],
+				"type": "string"
+			},
+			"SocialEnvironmentDTO": {
+				"type": "object",
+				"properties": {
+					"environments": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"StressDTO": {
+				"type": "object",
+				"properties": {
+					"level": {
+						"type": "string"
+					}
+				}
+			},
+			"SubstanceAbuseDTO": {
+				"type": "object",
+				"properties": {
+					"tobacco": {
+						"$ref": "#/components/schemas/TobaccoDTO"
+					},
+					"alcohol": {
+						"$ref": "#/components/schemas/AlcoholDTO"
+					},
+					"drugs": {
+						"$ref": "#/components/schemas/DrugsDTO"
+					}
+				}
+			},
+			"SurgeryDTO": {
+				"type": "object",
+				"properties": {
+					"answer": {
+						"type": "string"
+					},
+					"operations": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/SurgeryOperationDTO"
+						}
+					}
+				}
+			},
+			"SurgeryOperationDTO": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"year": {
+						"type": "string"
+					}
+				}
+			},
+			"Title": {
+				"enum": ["DR", "PROF", "PROF_DR", "NONE"],
+				"type": "string"
+			},
+			"TobaccoDTO": {
+				"type": "object",
+				"properties": {
+					"answer": {
+						"type": "string"
+					},
+					"unitsRange": {
+						"type": "string"
+					},
+					"yearsRange": {
+						"$ref": "#/components/schemas/Range"
+					}
+				}
+			},
+			"UUID": {
+				"format": "uuid",
+				"pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+				"type": "string"
+			},
+			"VaccinationCheckDTO": {
+				"type": "object",
+				"properties": {
+					"answer": {
+						"type": "string"
+					}
+				}
+			},
+			"ViolationDTO": {
+				"type": "object",
+				"properties": {
+					"constraintType": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					},
+					"path": {
+						"type": "string"
+					},
+					"value": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"SecurityScheme": {
+				"type": "http",
+				"description": "Authentication",
+				"scheme": "basic"
+			}
+		}
+	}
+}
