@@ -1,0 +1,259 @@
+{
+        "openapi": "3.0.0",
+        "info": {
+            "title": "Gmail API",
+            "version": "1.0.0",
+            "description": "A simple API for interacting with Gmail"
+        },
+        "servers": [
+            {
+                "url": "https://gmail.googleapis.com"
+            }
+        ],
+        "paths": {
+            "/gmail/v1/users/{userId}/messages": {
+                "get": {
+                    "summary": "List messages",
+                    "parameters": [
+                        {
+                            "name": "userId",
+                            "in": "path",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            },
+                            "description": "The user's email address."
+                        },
+                        {
+                            "name": "q",
+                            "in": "query",
+                            "schema": {
+                                "type": "string"
+                            },
+                            "description": "Only return messages matching the specified query."
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "List of messages",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "messages": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "string"
+                                                        },
+                                                        "threadId": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "post": {
+                    "summary": "Send a message",
+                    "parameters": [
+                        {
+                            "name": "userId",
+                            "in": "path",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            },
+                            "description": "The user's email address."
+                        }
+                    ],
+                    "requestBody": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "raw": {
+                                            "type": "string",
+                                            "description": "The entire email message in an RFC 2822 formatted and base64url encoded string."
+                                        }
+                                    },
+                                    "required": [
+                                        "raw"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Message sent successfully",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "threadId": {
+                                                "type": "string"
+                                            },
+                                            "labelIds": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/gmail/v1/users/{userId}/messages/{messageId}": {
+                "get": {
+                    "summary": "Get a message",
+                    "parameters": [
+                        {
+                            "name": "userId",
+                            "in": "path",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            },
+                            "description": "The user's email address."
+                        },
+                        {
+                            "name": "messageId",
+                            "in": "path",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            },
+                            "description": "The ID of the message to retrieve."
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "The specified message",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "string"
+                                            },
+                                            "threadId": {
+                                                "type": "string"
+                                            },
+                                            "labelIds": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "snippet": {
+                                                "type": "string"
+                                            },
+                                            "historyId": {
+                                                "type": "string"
+                                            },
+                                            "internalDate": {
+                                                "type": "string",
+                                                "format": "int64"
+                                            },
+                                            "payload": {
+                                                "type": "object"
+                                            },
+                                            "sizeEstimate": {
+                                                "type": "integer",
+                                                "format": "int32"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "delete": {
+                    "summary": "Delete a message",
+                    "parameters": [
+                        {
+                            "name": "userId",
+                            "in": "path",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            },
+                            "description": "The user's email address."
+                        },
+                        {
+                            "name": "messageId",
+                            "in": "path",
+                            "required": true,
+                            "schema": {
+                                "type": "string"
+                            },
+                            "description": "The ID of the message to delete."
+                        }
+                    ],
+                    "responses": {
+                        "204": {
+                            "description": "Message deleted successfully"
+                        }
+                    }
+                }
+            }
+        },
+        "components": {
+            "schemas": {
+                "Message": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "threadId": {
+                            "type": "string"
+                        },
+                        "labelIds": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "snippet": {
+                            "type": "string"
+                        },
+                        "historyId": {
+                            "type": "string"
+                        },
+                        "internalDate": {
+                            "type": "string",
+                            "format": "int64"
+                        },
+                        "payload": {
+                            "type": "object"
+                        },
+                        "sizeEstimate": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                }
+            }
+        }
+    }
